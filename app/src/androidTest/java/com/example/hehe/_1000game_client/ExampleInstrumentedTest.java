@@ -1,4 +1,4 @@
-package com.example.hehe.a1000game_client;
+package com.example.hehe._1000game_client;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
