@@ -1,8 +1,11 @@
 package com.example.hehe._1000game_client.Server;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -11,7 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.hehe._1000game_client.Game.Tables;
+import com.example.hehe._1000game_client.Tables.TablesActivity;
 import com.example.hehe._1000game_client.R;
 import com.example.hehe._1000game_client.ServerStreams.ServerReader;
 import com.example.hehe._1000game_client.ServerStreams.ServerWriter;
@@ -20,7 +23,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-public class Login extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity
 {
 
     private EditText userName;
@@ -52,18 +55,25 @@ public class Login extends AppCompatActivity
         loginButton.setOnClickListener( this.loginListener);
         userPasswd.setOnKeyListener( this.keyListener);
 
-        getConnection();
+        if ( wifiManager.getWifiState() == wifiManager.WIFI_STATE_DISABLED)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Wifi is turned off.").setNegativeButton("Exit", dialogClickListener)
+                    .setPositiveButton("Turn on Wifi", dialogClickListener).setCancelable(false).show();
+        }
+        else
+            getConnection();
 
-        serverWriter.start();
-        serverReader.start();
     }
+
+
 
     private CardView.OnClickListener loginListener = new CardView.OnClickListener()
     {
         @Override
         public void onClick(View v)
         {
-            if (checkWifi()) return;
+            if ( wifiManager.getWifiState() == wifiManager.WIFI_STATE_DISABLED ) return;
 
             String username = userName.getText().toString();
             String password = userPasswd.getText().toString();
@@ -79,7 +89,7 @@ public class Login extends AppCompatActivity
             {
                 userName.setError(null);
 
-                switchActivity(Tables.class);
+                switchActivity(TablesActivity.class);
 
                 Toast.makeText(getApplicationContext(), "Logged in as: " + username + " !", Toast.LENGTH_LONG).show();
             }else
@@ -92,30 +102,55 @@ public class Login extends AppCompatActivity
         }
     };
 
-
-
-    private boolean checkWifi()
+    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
     {
-        if (wifiManager.getWifiState() == wifiManager.WIFI_STATE_DISABLED)
-        {
-            Toast.makeText(getApplicationContext(), "Turn on you Wifi " , Toast.LENGTH_LONG).show();
-            return true;
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+        switch (which){
+            case DialogInterface.BUTTON_POSITIVE:
+
+                wifiManager.setWifiEnabled( true);
+                getConnection();
+                break;
+
+            case DialogInterface.BUTTON_NEGATIVE:
+                finish();
+                break;
         }
-        return false;
     }
+    };
+
+    private DialogInterface.OnClickListener connectionErrorListener = new DialogInterface.OnClickListener()
+    {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+
+                    getConnection();
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    finish();
+                    break;
+            }
+        }
+    };
 
     private EditText.OnClickListener registerListener =  new EditText.OnClickListener()
     {
         public void onClick(View v)
         {
-            switchActivity(Register.class);
+            switchActivity(RegisterActivity.class);
         }
     };
 
     private void switchActivity(Class c)
     {
         Intent myIntent = new Intent(this, c);
-        this.startActivity(myIntent);
+        startActivityForResult(myIntent, 1);
     }
 
     private EditText.OnKeyListener keyListener = new EditText.OnKeyListener()
@@ -142,6 +177,7 @@ public class Login extends AppCompatActivity
 
     private void getConnection()
     {
+        socket = null;
         ServerConnection asyncTask = new ServerConnection();
         asyncTask.execute();
 
@@ -156,8 +192,30 @@ public class Login extends AppCompatActivity
             e.printStackTrace();
         }
 
-        serverWriter = new ServerWriter( socket);
-        serverReader = new ServerReader( socket);
+        if ( socket == null)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Could't connect to server! Try again?").setNegativeButton("No. Exit", connectionErrorListener)
+                    .setPositiveButton("Yes", connectionErrorListener).setCancelable(false).show();
+        }else
+        {
+            Toast.makeText( getApplicationContext(), "Connected to server", Toast.LENGTH_LONG).show();
+            serverWriter = new ServerWriter( socket);
+            serverReader = new ServerReader( socket);
+
+            serverWriter.start();
+            serverReader.start();
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == 1)
+        {
+            getConnection();
+        }
     }
 }
 

@@ -1,8 +1,5 @@
 package com.example.hehe._1000game_client.Server;
 
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -14,12 +11,10 @@ import android.widget.Toast;
 
 import com.example.hehe._1000game_client.R;
 
-import java.net.Socket;
+import static com.example.hehe._1000game_client.Server.LoginActivity.serverReader;
+import static com.example.hehe._1000game_client.Server.LoginActivity.serverWriter;
 
-import static com.example.hehe._1000game_client.Server.Login.serverReader;
-import static com.example.hehe._1000game_client.Server.Login.serverWriter;
-
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     private EditText userName;
     private EditText userPasswd1;
@@ -56,19 +51,19 @@ public class Register extends AppCompatActivity {
             String password1 = userPasswd1.getText().toString();
             String password2 = userPasswd2.getText().toString();
 
-            if ( username.isEmpty()  )
+            if ( username.isEmpty() )
                 userName.setError("User name can't be empty!");
             else
                 userName.setError(null);
 
-            if (password1.isEmpty())
+            if ( password1.isEmpty() )
                 userPasswd1.setError("Password can't be empty!");
             else
                 userPasswd1.setError(null);
 
-            if (!password1.equals(password2)) {
+            if ( ! password1.equals(password2) )
                 userPasswd2.setError("Passwords are not equal!");
-            } else
+            else
                 userPasswd2.setError(null);
 
             return true;
@@ -84,7 +79,7 @@ public class Register extends AppCompatActivity {
             String password1 = userPasswd1.getText().toString();
             String password2 = userPasswd2.getText().toString();
 
-            if ( username.isEmpty() || password1.isEmpty() || ! password1.equals(password2))
+            if ( username.isEmpty() || password1.isEmpty() || ! password1.equals(password2) || username.contains(" "))
                 return;
 
             serverWriter.sendMessage("REGISTER " + username + " " + password1);
