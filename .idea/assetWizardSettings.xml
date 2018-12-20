@@ -33,7 +33,9 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_action_user" />
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="D:\INZYNIERKA\karty\10_Clubs.png" />
+                                      <entry key="outputName" value="10_Clubs" />
                                       <entry key="theme" value="HOLO_DARK" />
                                     </map>
                                   </option>
