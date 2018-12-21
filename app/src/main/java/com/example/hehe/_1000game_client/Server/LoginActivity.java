@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity
             {
                 userName.setError(null);
 
-                switchActivity(TablesActivity.class);
+                switchActivity(TablesActivity.class, username);
 
                 Toast.makeText(getApplicationContext(), "Logged in as: " + username + " !", Toast.LENGTH_LONG).show();
             }else
@@ -143,13 +143,14 @@ public class LoginActivity extends AppCompatActivity
     {
         public void onClick(View v)
         {
-            switchActivity(RegisterActivity.class);
+            switchActivity(RegisterActivity.class, null);
         }
     };
 
-    private void switchActivity(Class c)
+    private void switchActivity(Class c, String playerName)
     {
         Intent myIntent = new Intent(this, c);
+        myIntent.putExtra( "playerName", playerName);
         startActivityForResult(myIntent, 1);
     }
 

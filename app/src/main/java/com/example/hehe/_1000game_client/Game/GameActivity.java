@@ -2,6 +2,7 @@ package com.example.hehe._1000game_client.Game;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,9 @@ public class GameActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_game);
 
+        Intent i=getIntent();
+        String playerName=i.getStringExtra("playerName");
+
         String message = serverReader.getMessage();
 
         Toast.makeText( getApplicationContext(), message, Toast.LENGTH_LONG).show();
@@ -33,7 +37,7 @@ public class GameActivity extends AppCompatActivity
         initializeImages();
         setListeners();
 
-        Game game = new Game( listOfButtons, cardsOnTable, cardsOponents);
+        Game game = new Game( listOfButtons, cardsOnTable, cardsOponents, getApplicationContext(), playerName);
 
         game.start();
 
@@ -78,7 +82,11 @@ public class GameActivity extends AppCompatActivity
         listOfButtons[ i++] = findViewById( R.id.imageView6);
         listOfButtons[ i++] = findViewById( R.id.imageView7);
         listOfButtons[ i++] = findViewById( R.id.imageView8);
-        listOfButtons[ i++] = findViewById( R.id.imageView9);
+        listOfButtons[ i] = findViewById( R.id.imageView9);
+
+        //TODO
+//        for (int j = 0; j < 10; j++)
+//            listOfButtons[ j].setEnabled(false);
     }
 
     private ImageView.OnClickListener s = new View.OnClickListener() {
@@ -109,8 +117,6 @@ public class GameActivity extends AppCompatActivity
         switch (which){
             case DialogInterface.BUTTON_POSITIVE:
             {
-                serverWriter.sendMessage("YES");
-                Toast.makeText( getApplicationContext(), serverReader.getMessage(), Toast.LENGTH_LONG).show();
                 goBack();
                 break;
             }

@@ -69,9 +69,21 @@ public class Card
 
     }
 
+    /**
+     * Returns number of drawable image of card
+     * @return
+     */
     public int getImage()
     {
         return image;
     }
 
+    /**
+     * Returns code of card
+     * @return
+     */
+    public String getCardCode()
+    {
+        return this.cardCode;
+    }
 }

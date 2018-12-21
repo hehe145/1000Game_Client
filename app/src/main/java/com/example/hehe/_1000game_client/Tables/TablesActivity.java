@@ -26,6 +26,7 @@ public class TablesActivity extends AppCompatActivity
 {
     private TextView textViewTables;
     private ListView tableListView;
+    private String playerName;
     private Button btnAddTable;
     private Button btnRefresh;
     private TableAdapter tableList;
@@ -37,6 +38,9 @@ public class TablesActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tables);
+
+        Intent i=getIntent();
+        playerName = i.getStringExtra("playerName");
 
         tableListView = findViewById( R.id.tableListView);
         btnAddTable = findViewById( R.id.tableAdd);
@@ -203,6 +207,7 @@ public class TablesActivity extends AppCompatActivity
     private void switchActivity(Class c)
     {
         Intent myIntent = new Intent(this, c);
+        myIntent.putExtra("playerName", playerName);
         this.startActivity(myIntent);
     }
 
