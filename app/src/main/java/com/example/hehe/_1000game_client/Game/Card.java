@@ -1,7 +1,5 @@
 package com.example.hehe._1000game_client.Game;
 
-import android.graphics.drawable.Drawable;
-
 import com.example.hehe._1000game_client.R;
 
 public class Card

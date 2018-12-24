@@ -17,7 +17,7 @@ public class ServerConnection extends AsyncTask<Void, Void, Socket>
         {
             try
             {
-                socket = new Socket("192.168.1.101", 3456);
+                socket = new Socket("192.168.1.102", 3456);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -1,5 +1,7 @@
 package com.example.hehe._1000game_client.Game;
 
+import com.example.hehe._1000game_client.R;
+
 public class Player
 {
     private Card[] cards;
@@ -98,7 +100,7 @@ public class Player
      * Adds points to player's tourPoints
      * @param points
      */
-    public void addTourPoints(String points)
+    public void addRoundPoints(String points)
     {
         this.tourPoints += Integer.parseInt( points);
     }
@@ -107,7 +109,7 @@ public class Player
      * Returns player's tour points
      * @return
      */
-    public int getTourPoints()
+    public int getRoundPoints()
     {return this.tourPoints;}
 
     /**
@@ -147,5 +149,43 @@ public class Player
     public int getCardNumber()
     {
         return numberOfCards;
+    }
+
+    public int getBackCardImmage()
+    {
+        int image;
+        if ( numberOfCards == 0)
+            image = R.color.cardview_dark_background;
+        else
+        if ( numberOfCards == 1)
+            image = R.drawable.card_1;
+        else
+        if ( numberOfCards == 2)
+            image = R.drawable.card_2;
+        else
+        if ( numberOfCards == 3)
+            image = R.drawable.card_3;
+        else
+        if ( numberOfCards == 4)
+            image = R.drawable.card_4;
+        else
+        if ( numberOfCards == 5)
+            image = R.drawable.card_5;
+        else
+        if ( numberOfCards == 6)
+            image = R.drawable.card_6;
+        else
+        if ( numberOfCards == 7)
+            image = R.drawable.card_7;
+        else
+        if ( numberOfCards == 8)
+            image = R.drawable.card_8;
+        else
+        if ( numberOfCards == 9)
+            image = R.drawable.card_9;
+        else
+            image = R.drawable.card_10;
+
+        return image;
     }
 }
