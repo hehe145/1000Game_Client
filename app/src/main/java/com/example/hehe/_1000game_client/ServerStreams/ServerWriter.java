@@ -20,7 +20,7 @@ public class ServerWriter  extends Thread
         }
     }
 
-    public void sendMessage(String message)
+    public synchronized void sendMessage(String message)
     {
         try
         {

@@ -419,11 +419,11 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/guideline29"
-        app:srcCompat="@drawable/card_1" />
+        app:srcCompat="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/opponentsCards1"
-        android:layout_width="168dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="1dp"
         android:paddingLeft="0dp"
@@ -433,7 +433,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline11"
         app:layout_constraintStart_toStartOf="@+id/guideline8"
         app:layout_constraintTop_toTopOf="@+id/guideline29"
-        app:srcCompat="@drawable/card_2" />
+        app:srcCompat="@color/colorPrimary" />
 
 
 

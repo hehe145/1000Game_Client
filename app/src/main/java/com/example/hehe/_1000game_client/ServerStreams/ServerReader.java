@@ -10,11 +10,9 @@ public class ServerReader extends Thread
 {
     private BufferedReader reader;
     private String message;
-    private boolean readed;
 
     public ServerReader(Socket s)
     {
-        readed = false;
         try
         {
             reader = new BufferedReader( new InputStreamReader( s.getInputStream()));
@@ -28,37 +26,26 @@ public class ServerReader extends Thread
 
     public void run()
     {
-        while (true) {
-            if ( ! readed)
-            {
-                try {
-
-                    message = reader.readLine();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                readed = true;
-            }
-
+        while ( ! interrupted())
+        {
 
         }
     }
 
     public String getMessage()
     {
-        while (true)
+        while ( ! interrupted())
         {
+
             try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
+                message = reader.readLine();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            if (readed)
-            {
-                readed = false;
-                return message;
-            }
+
+            if ( ! message.isEmpty())
+                break;
         }
+        return message;
     }
 }
