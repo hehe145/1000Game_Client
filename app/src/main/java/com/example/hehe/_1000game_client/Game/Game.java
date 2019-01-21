@@ -486,7 +486,7 @@ public class Game extends Thread
     }
 
     /**
-     *
+     * Retur imegeViews to default color
      */
     private void clearTable()
     {
@@ -531,6 +531,11 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Removes card that player throw
+     * @param login plogin of player
+     * @param cardCode
+     */
     private void removeCardFromPlayer( final String login, final String cardCode)
     {
         gameActivity.runOnUiThread(new Runnable() {
@@ -555,6 +560,10 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Decrease number of cards that opponent has
+     * @param login of opponent
+     */
     private void removeCard( final String login)
     {
         gameActivity.runOnUiThread( new Runnable() {
@@ -572,6 +581,9 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Removes card that player throw and organize cardViews
+     */
     private void organizeCards()
     {
         gameActivity.runOnUiThread(new Runnable() {
@@ -594,6 +606,10 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Setup number of cards every player has after bidding
+     * @param login
+     */
     private void endOfBidding(final String login)
     {
         gameActivity.runOnUiThread(new Runnable() {
@@ -615,6 +631,10 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Changes text view of stakeView
+     * @param stake value of stake
+     */
     private void setCurrentState(final String stake) {
         gameActivity.runOnUiThread(new Runnable() {
             public void run() {
@@ -623,6 +643,11 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Adds rount points to every player and updates view
+     * @param login login of player
+     * @param points points earned by player
+     */
     private void addToRoundPoints( final String login, final String points)
     {
         gameActivity.runOnUiThread(new Runnable() {
@@ -641,6 +666,11 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Add global points of players and updates view
+     * @param login login of player
+     * @param points points earned by player
+     */
     private void addPoints(final String login, final String points)
     {
         gameActivity.runOnUiThread(new Runnable()
@@ -666,6 +696,9 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Updates view after receiving card from opponent
+     */
     private void updateWindow() {
         gameActivity.runOnUiThread(new Runnable()
         {
@@ -679,6 +712,9 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Prepares view to start of game
+     */
     private void startGame()
     {
         gameActivity.runOnUiThread(new Runnable()
@@ -716,11 +752,18 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Sends message to server that player throws card
+     * @param a number of card in players desc
+     */
     private void throwCard( int a)
     {
         serverWriter.sendMessage("THROW " + players[2].getCardCode( a));
     }
 
+    /**
+     * Initialize all textViews of view
+     */
     private void initializeTextViews()
     {
         stakeView = gameActivity.findViewById( R.id.stake);
@@ -751,6 +794,9 @@ public class Game extends Thread
 
     }
 
+    /**
+     * Initialize imageViews
+     */
     private void initializeImages()
     {
         cardsOnTable[ 0] = gameActivity.findViewById( R.id.cardTable0);
@@ -763,6 +809,9 @@ public class Game extends Thread
         trumpSuit = gameActivity.findViewById( R.id.trumpSuit);
     }
 
+    /**
+     * Sets listeners to every button responsible for throwing cards
+     */
     private void setListeners()
     {
         for (int i = 0; i < 10; i++)
@@ -789,6 +838,9 @@ public class Game extends Thread
         });
     }
 
+    /**
+     * Initialize buttons responsible for cards
+     */
     private void initializeButtons()
     {
 
