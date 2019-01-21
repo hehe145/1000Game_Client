@@ -476,9 +476,9 @@ public class Game extends Thread
 
         gameActivity.runOnUiThread(new Runnable() {
             public void run() {
-               cardsOnTable[0].setImageResource(R.color.cardview_dark_background);
-               cardsOnTable[1].setImageResource(R.color.cardview_dark_background);
-               cardsOnTable[2].setImageResource(R.color.cardview_dark_background);
+                cardsOnTable[0].setImageResource(R.color.cardview_dark_background);
+                cardsOnTable[1].setImageResource(R.color.cardview_dark_background);
+                cardsOnTable[2].setImageResource(R.color.cardview_dark_background);
             }
         });
 
