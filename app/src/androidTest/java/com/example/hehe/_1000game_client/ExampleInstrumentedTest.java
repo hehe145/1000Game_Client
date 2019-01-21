@@ -23,4 +23,6 @@ public class ExampleInstrumentedTest {
 
         assertEquals("com.example.hehe.a1000game_client", appContext.getPackageName());
     }
+
+
 }

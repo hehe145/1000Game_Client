@@ -59,6 +59,10 @@ public class TablesActivity extends AppCompatActivity
         refreshList( message.substring(6));
     }
 
+    /**
+     * Refreshes list of tables in the Activity based on messege given from server
+     * @param message
+     */
     private void refreshList(String message)
     {
         StringTokenizer  token = new StringTokenizer( message, " ");
@@ -80,6 +84,11 @@ public class TablesActivity extends AppCompatActivity
         tableListView.setAdapter( tableList);
     }
 
+    /**
+     *  Create list of tables
+     * @param token
+     * @param tableCount
+     */
     private void createListOfTables(StringTokenizer token, int tableCount)
     {
         if (tableCount == 0)
@@ -91,7 +100,7 @@ public class TablesActivity extends AppCompatActivity
         {
             String tableName = token.nextToken();
             int playerCount = Integer.parseInt( token.nextToken());
-            StringBuilder players = new StringBuilder("");
+            StringBuilder players = new StringBuilder();
 
             for (int j = 0; j < playerCount; j++)
             {
@@ -102,6 +111,9 @@ public class TablesActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Asks if user wants to logout and go back to LoinActivity
+     */
     @Override
     public void onBackPressed()
     {
@@ -111,6 +123,9 @@ public class TablesActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Logs user out and returns him do LoginActivity
+     */
     private DialogInterface.OnClickListener logOutListener = new DialogInterface.OnClickListener()
     {
         @Override
@@ -138,6 +153,7 @@ public class TablesActivity extends AppCompatActivity
             }
         }
     };
+
 
     private OnItemClickListener listItemListener = new OnItemClickListener()
     {
@@ -168,6 +184,10 @@ public class TablesActivity extends AppCompatActivity
         }
     };
 
+    /**
+     * Joins table with given position number in list of tables
+     * @param pos
+     */
     private void joinTable(int pos)
     {
         serverWriter.sendMessage("JOIN " + tables.get(pos).getTableName());
@@ -183,6 +203,9 @@ public class TablesActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Ask server for information about available tables
+     */
     private Button.OnClickListener refreshListListener = new Button.OnClickListener()
     {
         @Override
@@ -195,6 +218,9 @@ public class TablesActivity extends AppCompatActivity
         }
     };
 
+    /**
+     * Goes to AddTableActivity
+     */
     private Button.OnClickListener addTableListener = new Button.OnClickListener()
     {
         @Override
@@ -204,6 +230,10 @@ public class TablesActivity extends AppCompatActivity
         }
     };
 
+    /**
+     * Goes to given Activity
+     * @param c
+     */
     private void switchActivity(Class c)
     {
         Intent myIntent = new Intent(this, c);

@@ -61,12 +61,12 @@ public class RegisterActivity extends AppCompatActivity {
             else
                 userPasswd1.setError(null);
 
-            if ( ! password1.equals(password2) )
+            if (  password1.equals(password2) )
                 userPasswd2.setError("Passwords are not equal!");
             else
                 userPasswd2.setError(null);
 
-            return true;
+            return false;
         }
     };
 

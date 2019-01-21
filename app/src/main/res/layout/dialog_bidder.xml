@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    style="?android:attr/buttonBarStyle"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp">
+
+    <Button
+        android:id="@+id/btnSub"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="-"
+        android:textAlignment="center"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/dialogTextStake"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="229dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="100"
+        android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:text="+"
+        android:textSize="50sp" />
+
+</LinearLayout>

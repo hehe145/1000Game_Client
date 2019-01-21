@@ -1,19 +1,28 @@
 package com.example.hehe._1000game_client.Server;
 
-import android.annotation.SuppressLint;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.wifi.WifiManager;
-import android.provider.Settings;
+import android.graphics.Point;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.hehe._1000game_client.Tables.TablesActivity;
 import com.example.hehe._1000game_client.R;
 import com.example.hehe._1000game_client.ServerStreams.ServerReader;
@@ -33,17 +42,14 @@ public class LoginActivity extends AppCompatActivity
     public static ServerWriter serverWriter;
     public static ServerReader serverReader;
     private Socket socket;
-    private WifiManager wifiManager;
 
 
-    @SuppressLint("WifiManagerLeak")
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_login);
 
-        wifiManager = (WifiManager) this.getSystemService(WIFI_SERVICE);
 
         loginButton =  findViewById( R.id.loginView);
         registerButton =  findViewById( R.id.registerButton);
@@ -55,14 +61,8 @@ public class LoginActivity extends AppCompatActivity
         loginButton.setOnClickListener( this.loginListener);
         userPasswd.setOnKeyListener( this.keyListener);
 
-        if ( wifiManager.getWifiState() == wifiManager.WIFI_STATE_DISABLED)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Wifi is turned off.").setNegativeButton("Exit", dialogClickListener)
-                    .setPositiveButton("Turn on Wifi", dialogClickListener).setCancelable(false).show();
-        }
-        else
-            getConnection();
+
+        getConnection();
 
     }
 
@@ -73,14 +73,12 @@ public class LoginActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-            if ( wifiManager.getWifiState() == wifiManager.WIFI_STATE_DISABLED ) return;
 
             String username = userName.getText().toString();
             String password = userPasswd.getText().toString();
 
             if ( username.isEmpty() || password.isEmpty())
                 return;
-
 
             serverWriter.sendMessage("LOGIN " + username + " " + password) ;
             String message = serverReader.getMessage();
@@ -98,28 +96,9 @@ public class LoginActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), message.substring(2), Toast.LENGTH_LONG).show();
             }
 
-
         }
     };
 
-    private DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
-    {
-
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-        switch (which){
-            case DialogInterface.BUTTON_POSITIVE:
-
-                wifiManager.setWifiEnabled( true);
-                getConnection();
-                break;
-
-            case DialogInterface.BUTTON_NEGATIVE:
-                finish();
-                break;
-        }
-    }
-    };
 
     private DialogInterface.OnClickListener connectionErrorListener = new DialogInterface.OnClickListener()
     {
@@ -172,7 +151,7 @@ public class LoginActivity extends AppCompatActivity
             else
                 userPasswd.setError(null);
 
-            return true;
+            return false;
         }
     };
 
@@ -184,7 +163,7 @@ public class LoginActivity extends AppCompatActivity
 
         try
         {
-            socket = asyncTask.get(5, TimeUnit.SECONDS);
+            socket = asyncTask.get(10, TimeUnit.SECONDS);
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -196,7 +175,7 @@ public class LoginActivity extends AppCompatActivity
         if ( socket == null)
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Could't connect to server! Try again?").setNegativeButton("No. Exit", connectionErrorListener)
+            builder.setMessage("Could't connect to server! Please check internet connection. Try again?").setNegativeButton("No. Exit", connectionErrorListener)
                     .setPositiveButton("Yes", connectionErrorListener).setCancelable(false).show();
         }else
         {
